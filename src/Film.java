@@ -10,12 +10,12 @@ public class Film {
     private String language;
     private String director;
     private String scriptwriter;
-    private ArrayList<String> actorsList;
+    private String actorsList;
     private String description;
     private int voteCount;
-    private int voteAverage;
+    private Float voteAverage;
 
-    Film(String t, int y, String g, int du, String c, String l, String di, String s, ArrayList<String> a, String d, int vc, int va)
+    Film(String t, int y, String g, int du, String c, String l, String di, String s, String a, String d, int vc, Float va)
     {
         title=t;
         year=y;
@@ -75,13 +75,15 @@ public class Film {
 
     static public Comparator<Film> compareVoteAverage = new Comparator <Film>() {
 	    public int compare(Film f1, Film f2) {
-	        return f1.voteAverage-f2.voteAverage;
+            if (f1.voteAverage < f2.voteAverage) return -1;
+            if (f1.voteAverage > f2.voteAverage) return 1;
+            return 0;
 	    }
 	};
     
 
     @Override
     public String toString() {
-        return super.toString();
+        return String.format("Title: %1$-15s Year: %2$-6d Genre: %3$-30s Duration: %4$-5d Country: %5$-12s Langage: %6$-10s Director: %7$-20s Writer: %8$-20s Actors: %9$-10% Description: %10$-10s Vote Count: %11$-5d Vote Average %12$-5f", title, year, genre, duration, country, language, director, scriptwriter, actorsList, description, voteCount, voteAverage);
     }
 }
