@@ -62,10 +62,17 @@ public class App {
 
         tsvReader.close();
 
-        // while (status)
-        // {
-            
-        // }
+
+        Boolean status = true;
+        while (status)
+        {
+            System.out.println("Que souhaitez vous faire ?\n"+
+                                "1. Afficher la liste\n" +
+                                "2. Filtrer la liste\n" +
+                                "3. Trier la liste\n" +
+                                "4. Rechercher un film\n" +
+                                "5. IMDbmoviesFULL.tsv\n");
+        }
     
 
     }
