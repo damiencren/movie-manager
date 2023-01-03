@@ -1,21 +1,22 @@
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Film {
     private String title;
-    private int year;
+    private Integer year;
     private String genre;
-    private int duration;
+    private Integer duration;
     private String country;
     private String language;
     private String director;
     private String scriptwriter;
     private String actors;
     private String description;
-    private int voteCount;
-    private Float voteAverage;
+    private Integer voteCount;
+    private Double voteAverage;
 
-    Film(String t, int y, String g, int du, String c, String l, String di, String s, String a, String d, int vc, Float va)
+    Film(String t, Integer y, String g, Integer du, String c, String l, String di, String s, String a, String d, Integer vc, Double va)
     {
         title=t;
         year=y;
@@ -31,6 +32,55 @@ public class Film {
         voteAverage=va;
     }
 
+    public String getTitle(){
+        return title;
+    }
+
+    public Integer getYear(){
+        return year;
+    } 
+    
+    public String getGenre(){
+        return genre;
+    }
+
+    public Integer getDuration(){
+        return duration;
+    }
+
+    public String getCountry(){
+        return country;
+    }
+
+    public String getLanguage(){
+        return language;
+    }
+
+    public String getDirector(){
+        return director;
+    }
+
+    public String getScriptwriter(){
+        return scriptwriter;
+    }
+
+    public String getActors(){
+        return actors;
+    }
+
+    public String getDescription(){
+        return description;
+    }
+
+    public Integer getVoteCount(){
+        return voteCount;
+    }
+
+    public double getVoteAverage(){
+        return voteAverage;
+    }
+
+      
 	static public Comparator<Film> compareTitle = new Comparator <Film>() {
 	    public int compare(Film f1, Film f2) {
 	        return f1.title.compareToIgnoreCase(f2.title);
@@ -90,6 +140,6 @@ public class Film {
 
     @Override
     public String toString() {
-        return String.format(" Title: %1$-50s Year: %2$-6d Genre: %3$-30s Duration: %4$-5d Country: %5$-12s Langage: %6$-10s Director: %7$-20s Writer: %8$-20s Actors: %9$-10s Description: %10$-10s Vote Count: %11$-5d Vote Average %12$-5f", title, year, genre, duration, country, language, director, scriptwriter, actors, description, voteCount, voteAverage);
+        return String.format(" Title: %1$-50s Year: %2$-6d Genre: %3$-30s Duration: %4$-5d Country: %5$-12s Langage: %6$-10s Director: %7$-20s Writer: %8$-20s Actors: %9$-10s Description: %10$-10s Vote Count: %11$-5d Vote Average %12$-5.1f", title, year, genre, duration, country, language, director, scriptwriter, actors, description, voteCount, voteAverage);
     }
 }
