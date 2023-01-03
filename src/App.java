@@ -1,19 +1,11 @@
-import java.io.BufferedReader;
-import java.io.Console;
-import java.io.FileReader;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
 
-        ArrayList<Film> movieList = new ArrayList<Film>();
-        initialisation(movieList);
+        Database db = new Database();
+        db.initialisation();
 
         Scanner sc=new Scanner(System.in);
         Boolean status = true;
@@ -29,21 +21,20 @@ public class App {
             
             try {
                 int input = Integer.parseInt(sc.nextLine());
-            
-
                 switch (input){
                     case 1:
-                        displayList(movieList);
+                        db.display();
                         break;
                     case 2:
+                        filter(db);
                         break;
                     case 3:
-                        sortList(movieList);
+                        sort(db);
                         break;
                     case 4:
                         break;
                     case 5:
-                        initialisation(movieList);
+                        db.initialisation();
                         break;
                     default:
                         System.out.println("Veuillez entrer un nombre entre 1 et 5");
@@ -57,91 +48,128 @@ public class App {
         sc.close();
     }
 
-
-    public static void initialisation(ArrayList<Film> movieList) throws Exception{
-        while (!movieList.isEmpty()){
-            movieList.remove(0);
-        }
-
-        String fileName = null;
+    public static void filter(Database db) {
+        Integer input = null;
         Scanner sc=new Scanner(System.in);
+        Integer attribute = null;
+        String value = null;
 
-        while(fileName == null){
-            System.out.println("Quel fichier souhaitez vous ouvrir?\n"+
-                                        "1. IMDbmoviesCUT100.tsv\n" +
-                                        "2. IMDbmoviesCUT1000.tsv\n" +
-                                        "3. IMDbmoviesCUT10000.tsv\n" +
-                                        "4. IMDbmoviesCUT40000.tsv\n" +
-                                        "5. IMDbmoviesFULL.tsv\n");
+        while(input==null){
+            System.out.println("En fonction de quel attribut souhaitez vous filtrer la liste ?\n"+
+            "1. Titre\n" +
+            "2. Année\n" +
+            "3. Genre\n" +
+            "4. Durée\n" +
+            "5. Pays\n" +
+            "6. Langue\n" +
+            "7. Réalisateur\n" +
+            "8. Auteur\n" +
+            "9. Acteurs\n"+
+            "10. Description\n" +
+            "11. Nombre de votes\n"+
+            "12. Note moyenne");
 
             try {
-                int input = Integer.parseInt(sc.nextLine());
-                switch(input) {
-                    case 1:
-                        fileName = "IMDbmoviesCUT100.tsv";
-                        break;
-                    case 2:
-                        fileName = "IMDbmoviesCUT1000.tsv";
-                        break;
-                    case 3:
-                        fileName = "IMDbmoviesCUT10000.tsv";
-                        break;
-                    case 4:
-                        fileName = "IMDbmoviesCUT40000.tsv";
-                        break;
-                    case 5:
-                        fileName = "IMDbmoviesFULL.tsv";
-                        break;
-                    default:
-                        System.out.println("Veuillez entrer un nombre entre 1 et 5");
+                input = Integer.parseInt(sc.nextLine());
+                if (input > 0 && input <= 12) {
+                    attribute = input;
+                } else {
+                    input = null;
+                    System.out.println("Veuillez entrer un nombre entre 1 et 12");
                 }
             } catch (Exception e) {
-                System.out.println("Veuillez entrer un nombre entre 1 et 5");
+                System.out.println("Veuillez entrer un nombre entre 1 et 12");
+            }
+
+        }
+        
+        input = null;
+
+        System.out.println("Entrez votre chaine de caracteres\n");
+        value = sc.nextLine();
+
+        input = null;
+        while(input == null){
+            System.out.println("Quel type de filtre souhaitez vous utiliser\n"+
+            "1. Filtre Linéaire\n" +
+            "2. Filtre Java\n");
+            
+            try {   
+                input = Integer.parseInt(sc.nextLine());
+                switch(input) {
+                    case 1:
+                        //sortType
+                        break;
+                    case 2:
+                        db.JavaFilter(attribute, value);
+                        break;
+                    default:
+                        System.out.println("Veuillez entrer un nombre entre 1 et 2");
+                }
+            } catch (Exception e) {
+                System.out.println("Veuillez entrer un nombre entre 1 et 2");
+            }
+        }
+    }
+
+    public static void sort(Database db) {
+        Integer input = null;
+        Scanner sc=new Scanner(System.in);
+        Comparator<Film> comparator = null;
+
+        while(input==null){
+            System.out.println("En fonction de quel attribut souhaitez vous trier la liste ?\n"+
+            "1. Titre\n"+
+            "2. Année\n" +
+            "3. Genre\n" +
+            "4. Durée\n" +
+            "5. Pays\n" +
+            "6. Langue\n" +
+            "7. Description\n" +
+            "8. Nombre de votes\n" +
+            "9. Note moyenne\n");
+
+
+            try {
+                input = Integer.parseInt(sc.nextLine());
+                switch(input) {
+                    case 1:
+                        comparator = Film.compareTitle;
+                        break;
+                    case 2:
+                        comparator = Film.compareYear;
+                        break;
+                    case 3:
+                        comparator = Film.compareGenre;
+                        break;
+                    case 4:
+                        comparator = Film.compareDuration;
+                        break;
+                    case 5:
+                        comparator = Film.compareCountry;
+                        break;
+                    case 6:
+                        comparator = Film.compareLanguage;
+                        break;
+                    case 7:
+                        comparator = Film.compareDescription;
+                        break;
+                    case 8:
+                        comparator = Film.compareVoteCount;
+                        break;
+                    case 9:
+                        comparator = Film.compareVoteAverage;
+                        break;
+                    default:
+                        System.out.println("Veuillez entrer un nombre entre 1 et 9");
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println("Veuillez entrer un nombre entre 1 et 8");
             }
         }
 
-
-        Reader tsvReader = new BufferedReader(new FileReader("src/data/"+fileName));
-
-        Path path = Paths.get("src/data/"+fileName);
-        long lines = Files.lines(path).count();
-
-        ((BufferedReader) tsvReader).readLine();
-
-        for (int i = 1; i < lines; i++) {
-            String row = ((BufferedReader) tsvReader).readLine();
-            String[] data = row.split("\t");
-            Film film = new Film(data[1], Integer.parseInt(data[3]), data[5], Integer.parseInt(data[6]), data[7], data[8],data[9], data[10], data[12],data[13],Integer.parseInt(data[15]),Float.parseFloat(data[14]));
-            movieList.add(film);
-        }
-
-        tsvReader.close();
-    }
-
-
-    public static void displayList(ArrayList<Film> movieList) {
-        for (int i = 0; i < movieList.size(); i++) {
-            String prefix = Integer.toString(i+1) + ") ";
-            System.out.println(String.format("%1$-6s %2$s", prefix, movieList.get(i)));
-        }
-    }
-
-
-
-    // TODO
-    public static void filterList(ArrayList<Film> movieList) {
-
-    }
-
-
-
-
-
-    // TODO
-    public static void sortList(ArrayList<Film> movieList) {
-        Integer input = null;
-        Scanner sc=new Scanner(System.in);
-
+        input = null;
         while(input == null){
             System.out.println("Quel type de tri souhaitez vous utiliser\n"+
             "1. Tri par selection\n" +
@@ -152,13 +180,13 @@ public class App {
                 input = Integer.parseInt(sc.nextLine());
                 switch(input) {
                     case 1:
-                        //SelectionSort(movieList);
+                        db.SelectionSort(comparator);
                         break;
                     case 2:
-                        //FusionSort(movieList);
+                        db.FusionSort(comparator);
                         break;
                     case 3:
-                        JavaSort(movieList);
+                        db.JavaSort(comparator);
                         break;
                     default:
                         System.out.println("Veuillez entrer un nombre entre 1 et 3");
@@ -169,96 +197,4 @@ public class App {
         }
     }
 
-    public static ArrayList<Film> SelectionSort(ArrayList<Film> movieList) {
-        return movieList;
-    }
-
-    public static void FusionSort(ArrayList<Film> movieList, int debut, int fin) {
-        // Tri fusion
-		if (debut < fin) {
-			int m = (debut + fin) / 2;
-			FusionSort(movieList, debut, m);
-			FusionSort(movieList, m + 1, fin);
-
-			Fusion(movieList, debut, m, fin);
-		}
-    }
-
-    public static void Fusion(ArrayList<Film> movieList, int debut, int m, int fin){
-		int i = debut;
-		int j = m + 1;
-		int k = 0;
-		int[] tmp = new int[fin - debut + 1];
-
-		while (i <= m && j <= fin) {
-			if (movieList[i] < movieList[j]) {
-				tmp[k] = movieList[i];
-				i++;
-			} else {
-				tmp[k] = movieList[j];
-				j++;
-			}
-			k++;
-		}
-
-    public static void JavaSort(ArrayList<Film> movieList) {
-        System.out.println("test");
-
-        Integer input = null;
-        Scanner sc=new Scanner(System.in);
-
-        while(input == null){
-            System.out.println("En fonction de quel attribut souhaitez vous trier la liste ?\n"+
-            "1. Année\n" +
-            "2. Genre\n" +
-            "3. Durée\n" +
-            "4. Pays\n" +
-            "5. Langue\n" +
-            "6. Description\n" +
-            "7. Nombre de votes\n" +
-            "8. Note moyenne\n");
-            
-            try {
-                input = Integer.parseInt(sc.nextLine());
-                switch(input) {
-                    case 1:
-                        movieList.sort(Film.compareYear);
-                        break;
-                    case 2:
-                        movieList.sort(Film.compareGenre);
-                        break;
-                    case 3:
-                        movieList.sort(Film.compareDuration);
-                        break;
-                    case 4:
-                        movieList.sort(Film.compareCountry);
-                        break;
-                    case 5:
-                        movieList.sort(Film.compareLanguage);
-                    case 6:
-                        movieList.sort(Film.compareDescription);
-                        break;
-                    case 7:
-                        movieList.sort(Film.compareVoteCount);
-                        break;
-                    case 8:
-                        movieList.sort(Film.compareVoteAverage);
-                        break;
-                    default:
-                        System.out.println("Veuillez entrer un nombre entre 1 et 8");
-                }
-            } catch (Exception e) {
-                System.out.println("Veuillez entrer un nombre entre 1 et 8");
-            }
-        }
-    }
-
-
-
-
-
-    // TODO
-    public static ArrayList<Film> SearchList(ArrayList<Film> movieList) {
-        return movieList;
-    }
 }
