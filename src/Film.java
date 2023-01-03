@@ -10,7 +10,7 @@ public class Film {
     private String language;
     private String director;
     private String scriptwriter;
-    private String actorsList;
+    private String actors;
     private String description;
     private int voteCount;
     private Float voteAverage;
@@ -25,7 +25,7 @@ public class Film {
         language=l;
         director=di;
         scriptwriter=s;
-        actorsList=a;
+        actors=a;
         description=d;
         voteCount=vc;
         voteAverage=va;
@@ -61,12 +61,18 @@ public class Film {
 	    }
 	};
 
-    static public Comparator<Film> compareDirector = new Comparator <Film>() {
+    static public Comparator<Film> compareLanguage = new Comparator <Film>() {
 	    public int compare(Film f1, Film f2) {
-	        return f1.director.compareToIgnoreCase(f2.director);
+	        return f1.language.compareToIgnoreCase(f2.language);
 	    }
 	};
 
+    static public Comparator<Film> compareDescription = new Comparator <Film>() {
+	    public int compare(Film f1, Film f2) {
+	        return f1.description.compareToIgnoreCase(f2.description);
+	    }
+	};
+    
     static public Comparator<Film> compareVoteCount = new Comparator <Film>() {
 	    public int compare(Film f1, Film f2) {
 	        return f1.voteCount-f2.voteCount;
@@ -84,6 +90,6 @@ public class Film {
 
     @Override
     public String toString() {
-        return String.format("Title: %1$-15s Year: %2$-6d Genre: %3$-30s Duration: %4$-5d Country: %5$-12s Langage: %6$-10s Director: %7$-20s Writer: %8$-20s Actors: %9$-10% Description: %10$-10s Vote Count: %11$-5d Vote Average %12$-5f", title, year, genre, duration, country, language, director, scriptwriter, actorsList, description, voteCount, voteAverage);
+        return String.format(" Title: %1$-50s Year: %2$-6d Genre: %3$-30s Duration: %4$-5d Country: %5$-12s Langage: %6$-10s Director: %7$-20s Writer: %8$-20s Actors: %9$-10s Description: %10$-10s Vote Count: %11$-5d Vote Average %12$-5f", title, year, genre, duration, country, language, director, scriptwriter, actors, description, voteCount, voteAverage);
     }
 }
