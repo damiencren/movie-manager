@@ -5,10 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.ListIterator;
 import java.util.Scanner;
 
@@ -19,11 +16,17 @@ public class Database {
     public void initialisation() throws Exception {
         if (movieList == null) {
             movieList = new ArrayList<Film>();
-        } else
+        }
+
+        
+        long startTime = System.nanoTime();
 
         while (!movieList.isEmpty()){
             movieList.remove(0);
         }
+        long endTime = System.nanoTime();
+        long elapsedTime = endTime - startTime;
+        System.out.println("Elapsed time: " + elapsedTime/1000000.00000 + " milliseconds");
 
         String fileName = null;
         Scanner sc=new Scanner(System.in);
@@ -264,12 +267,6 @@ public class Database {
         }
     }
     
-
-
-    
-    
-    
-
     public void fusionSort(Comparator<Film> comparator) {
         fusionRec(0, movieList.size()-1, comparator);
     }
