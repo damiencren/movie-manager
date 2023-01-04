@@ -12,14 +12,21 @@ public class App {
         
         while(status)
         {
-            System.out.println("Que souhaitez vous faire ?\n"+
-                                "1. Afficher la liste\n" +
-                                "2. Filtrer la liste\n" +
-                                "3. Trier la liste\n" +
-                                "4. Rechercher un film\n" +
-                                "5. Reinitialiser la liste de films\n");
+            System.out.println(String.format(
+                                "     ____________________________________________________________________\n\n"+
+                                "%-15sBienvenue dans l'application de gestion de films\n"+
+                                "     ____________________________________________________________________\n\n"+
+                                "%-10sQue souhaitez vous faire ?\n"+
+                                "%-15s[1] Afficher la liste\n" +
+                                "%-15s[2] Filtrer la liste\n" +
+                                "%-15s[3] Trier la liste\n" +
+                                "%-15s[4] Rechercher un film\n" +
+                                "%-15s[5] Reinitialiser la liste de films\n"+
+                                "%-15s[6] Quitter l'application\n"+
+                                "     ____________________________________________________________________\n", "","", "", "", "", "", "", ""));
             
             try {
+                System.out.print(String.format("%-10sVotre choix : ", ""));
                 int input = Integer.parseInt(sc.nextLine());
                 switch (input){
                     case 1:
@@ -36,6 +43,9 @@ public class App {
                         break;
                     case 5:
                         db.initialisation();
+                        break;
+                    case 6:
+                        status = false;
                         break;
                     default:
                         System.out.println("Veuillez entrer un nombre entre 1 et 5");
@@ -56,21 +66,24 @@ public class App {
         String value = null;
 
         while(input==null){
-            System.out.println("En fonction de quel attribut souhaitez vous filtrer la liste ?\n"+
-            "1. Titre\n" +
-            "2. Année\n" +
-            "3. Genre\n" +
-            "4. Durée\n" +
-            "5. Pays\n" +
-            "6. Langue\n" +
-            "7. Réalisateur\n" +
-            "8. Auteur\n" +
-            "9. Acteurs\n"+
-            "10. Description\n" +
-            "11. Nombre de votes\n"+
-            "12. Note moyenne");
+            System.out.println(String.format("     ____________________________________________________________________\n\n"+
+                                            "%-10sEn fonction de quel attribut souhaitez vous filtrer la liste ?\n"+
+                                            "%-15s[1] Titre\n" +
+                                            "%-15s[2] Année\n" +
+                                            "%-15s[3] Genre\n" +
+                                            "%-15s[4] Durée\n" +
+                                            "%-15s[5] Pays\n" +
+                                            "%-15s[6] Langue\n" +
+                                            "%-15s[7] Réalisateur\n" +
+                                            "%-15s[8] Auteur\n" +
+                                            "%-15s[9] Acteurs\n"+
+                                            "%-15s[10] Description\n" +
+                                            "%-15s[11] Nombre de votes\n"+
+                                            "%-15s[12] Note moyenne\n"+
+                                            "     ____________________________________________________________________\n", "", "", "", "", "", "", "", "", "", "", "", "",""));
 
             try {
+                System.out.print(String.format("%-10sVotre choix : ", ""));
                 input = Integer.parseInt(sc.nextLine());
                 if (input > 0 && input <= 12) {
                     attribute = input;
@@ -86,20 +99,24 @@ public class App {
         
         input = null;
 
-        System.out.println("Entrez votre chaine de caracteres\n");
+        System.out.print(String.format("%-10sVeuillez entrer la valeur de l'attribut avec laquelle vous souhaitez trier : ", ""));
         value = sc.nextLine();
 
         input = null;
         while(input == null){
-            System.out.println("Quel type de filtre souhaitez vous utiliser\n"+
-            "1. Filtre Linéaire\n" +
-            "2. Filtre Java\n");
+            System.out.println(String.format("     ____________________________________________________________________\n\n"+
+                                            "%-10sQuel type de filtre souhaitez vous utiliser\n"+
+                                            "%-15s[1] Filtre Linéaire\n" +
+                                            "%-15s[2] Filtre Java\n"+
+                                            "     ____________________________________________________________________\n", "", "", ""));
             
             try {   
+                System.out.print(String.format("%-10sVotre choix : ", ""));
                 input = Integer.parseInt(sc.nextLine());
+                
                 switch(input) {
                     case 1:
-                        //sortType
+                        db.linearFilter(attribute, value);
                         break;
                     case 2:
                         db.javaFilter(attribute, value);
@@ -119,19 +136,21 @@ public class App {
         Comparator<Film> comparator = null;
 
         while(input==null){
-            System.out.println("En fonction de quel attribut souhaitez vous trier la liste ?\n"+
-            "1. Titre\n"+
-            "2. Année\n" +
-            "3. Genre\n" +
-            "4. Durée\n" +
-            "5. Pays\n" +
-            "6. Langue\n" +
-            "7. Description\n" +
-            "8. Nombre de votes\n" +
-            "9. Note moyenne\n");
+            System.out.println(String.format("     ____________________________________________________________________\n\n"+
+                                            "%-10sEn fonction de quel attribut souhaitez vous trier la liste ?\n"+
+                                            "%-15s[1] Titre\n"+
+                                            "%-15s[2] Année\n" +
+                                            "%-15s[3] Genre\n" +
+                                            "%-15s[4] Durée\n" +
+                                            "%-15s[5] Pays\n" +
+                                            "%-15s[6] Langue\n" +
+                                            "%-15s[7] Description\n" +
+                                            "%-15s[8] Nombre de votes\n" +
+                                            "%-15s[9] Note moyenne\n", "", "", "", "", "", "", "", "", "", ""));
 
 
             try {
+                System.out.print(String.format("%-10sVotre choix : ", ""));
                 input = Integer.parseInt(sc.nextLine());
                 switch(input) {
                     case 1:
@@ -172,19 +191,23 @@ public class App {
 
         input = null;
         while(input == null){
-            System.out.println("Quel type de tri souhaitez vous utiliser\n"+
-            "1. Tri par selection\n" +
-            "2. Tri fusion\n" +
-            "3. Tri Java\n");
+            System.out.println(String.format("     ____________________________________________________________________\n\n"+
+                                            "%-10sQuel type de tri souhaitez vous utiliser\n"+
+                                            "%-15s[1] Tri par selection\n" +
+                                            "%-15s[2] Tri fusion\n" +
+                                            "%-15s[3] Tri Java\n", "", "", "",""));
             
             try {   
+                System.out.print(String.format("%-10sVotre choix : ", ""));
                 input = Integer.parseInt(sc.nextLine());
                 switch(input) {
                     case 1:
                         db.selectionSort(comparator);
                         break;
                     case 2:
+
                         db.fusionSort(comparator);
+
                         break;
                     case 3:
                         db.javaSort(comparator);
@@ -205,21 +228,24 @@ public class App {
         String value = null;
 
         while(input==null){
-            System.out.println("En fonction de quel attribut souhaitez vous effectuer une recherche ?\n"+
-            "1. Titre\n" +
-            "2. Année\n" +
-            "3. Genre\n" +
-            "4. Durée\n" +
-            "5. Pays\n" +
-            "6. Langue\n" +
-            "7. Réalisateur\n" +
-            "8. Auteur\n" +
-            "9. Acteurs\n"+
-            "10. Description\n" +
-            "11. Nombre de votes\n"+
-            "12. Note moyenne");
+            System.out.println(String.format("     ____________________________________________________________________\n\n"+
+                                            "%-10sEn fonction de quel attribut souhaitez vous effectuer une recherche ?\n"+
+                                            "%-15s[1] Titre\n" +
+                                            "%-15s[2] Année\n" +
+                                            "%-15s[3] Genre\n" +
+                                            "%-15s[4] Durée\n" +
+                                            "%-15s[5] Pays\n" +
+                                            "%-15s[6] Langue\n" +
+                                            "%-15s[7] Réalisateur\n" +
+                                            "%-15s[8] Auteur\n" +
+                                            "%-15s[9] Acteurs\n"+
+                                            "%-15s[10] Description\n" +
+                                            "%-15s[11] Nombre de votes\n"+
+                                            "%-15s[12] Note moyenne\n"+
+                                            "     ____________________________________________________________________\n",  "", "", "", "", "", "", "", "", "", "", "", "","",""));
 
             try {
+                System.out.print(String.format("%-10sVotre choix : ", ""));
                 input = Integer.parseInt(sc.nextLine());
                 if (input > 0 && input <= 12) {
                     attribute = input;
@@ -235,23 +261,42 @@ public class App {
         
         input = null;
 
-        System.out.println("Entrez votre chaine de caracteres\n");
+        System.out.print(String.format("     ____________________________________________________________________\n\n"+
+                                        "%-10sVeuillez entrer la valeur de l'attribut que vous souhaitez rechercher\n"+
+                                        "     ____________________________________________________________________\n\n"+
+                                        "%-10sVotre choix : ", "",""));
         value = sc.nextLine();
 
         input = null;
         while(input == null){
-            System.out.println("Quel type de cherche souhaitez vous effectuer\n"+
-            "1. Recherche Linéaire\n" +
-            "2. Recherche dichotomique\n");
+            System.out.println(String.format("     ____________________________________________________________________\n\n"+
+                                            "%-10sQuel type de cherche souhaitez vous effectuer\n"+
+                                            "%-15s[1] Recherche Linéaire\n" +
+                                            "%-15s[2] Recherche dichotomique\n", "", "", ""));
             
             try {   
+                System.out.print(String.format("%-10sVotre choix : ", ""));
                 input = Integer.parseInt(sc.nextLine());
                 switch(input) {
                     case 1:
+
                         db.linearSearch(attribute, value);
                         break;
                     case 2:
-                        // DichotomicalSearch
+                        try {
+                        long startTime = System.nanoTime();
+                        
+                        Database db_copy = new Database();
+                        db_copy.copyData(db);
+                        db_copy.javaSort(Film.compareTitle);
+                        db.dichotomicalSearch(attribute, value, db_copy);
+
+                        long endTime = System.nanoTime();
+                        long elapsedTime = endTime - startTime;
+                        System.out.println("Elapsed time: " + elapsedTime/1000000.00000 + " milliseconds");
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
                         break;
                     default:
                         System.out.println("Veuillez entrer un nombre entre 1 et 2");
