@@ -5,17 +5,20 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Scanner;
 
 public class Database {
-    private LinkedList<Film> movieList;
+    private ArrayList<Film> movieList;
 
 
     public void initialisation() throws Exception {
         if (movieList == null) {
-            movieList = new LinkedList<Film>();
+            movieList = new ArrayList<Film>();
         } else
 
         while (!movieList.isEmpty()){
@@ -26,14 +29,18 @@ public class Database {
         Scanner sc=new Scanner(System.in);
 
         while(fileName == null){
-            System.out.println("Quel fichier souhaitez vous ouvrir?\n"+
-                                        "1. IMDbmoviesCUT100.tsv\n" +
-                                        "2. IMDbmoviesCUT1000.tsv\n" +
-                                        "3. IMDbmoviesCUT10000.tsv\n" +
-                                        "4. IMDbmoviesCUT40000.tsv\n" +
-                                        "5. IMDbmoviesFULL.tsv\n");
+            System.out.println(String.format(" ______             _          ______                                      \n|  ___ \\           (_)        |  ___ \\                                     \n| | _ | | ___ _   _ _  ____   | | _ | | ____ ____   ____  ____  ____  ____ \n| || || |/ _ \\ | | | |/ _  )  | || || |/ _  |  _ \\ / _  |/ _  |/ _  )/ ___)\n| || || | |_| \\ V /| ( (/ /   | || || ( ( | | | | ( ( | ( ( | ( (/ /| |    \n|_||_||_|\\___/ \\_/ |_|\\____)  |_||_||_|\\_||_|_| |_|\\_||_|\\_|| |\\____)_|    \n                                                        (_____|            \n"+
+                                            "     ____________________________________________________________________\n\n"+
+                                            "%-10sQuel fichier souhaitez vous ouvrir?\n"+
+                                            "%-15s[1] IMDbmoviesCUT100.tsv\n" +
+                                            "%-15s[2] IMDbmoviesCUT1000.tsv\n" +
+                                            "%-15s[3] IMDbmoviesCUT10000.tsv\n" +
+                                            "%-15s[4] IMDbmoviesCUT40000.tsv\n" +
+                                            "%-15s[5] IMDbmoviesFULL.tsv\n" +
+                                            "     ____________________________________________________________________\n", "", "", "", "", "", ""));
 
             try {
+                System.out.print(String.format("%-10sVotre choix : ", ""));
                 int input = Integer.parseInt(sc.nextLine());
                 switch(input) {
                     case 1:
@@ -85,19 +92,111 @@ public class Database {
     }
 
     // FILTRES 
-    public void linearFilter() {
-
-        // Stream<Film> filtered_data = list.stream().filter(s -> s.rollNo > 2);  
-
-        // // using lambda to iterate through collection  
-        // filtered_data.forEach(  
-        //         student -> System.out.println(student.name)  
-        // );
+    public void linearFilter(Integer attribute, String value) {
+        switch(attribute) {
+            case 1:
+                for (int i = 0; i < movieList.size(); i++) {
+                    if (!movieList.get(i).getTitle().contains(value)) {
+                        movieList.remove(i);
+                        i--;
+                    }
+                }
+                break;
+            case 2:
+                for (int i = 0; i < movieList.size(); i++) {
+                    if (!(movieList.get(i).getYear()==Integer.parseInt(value))) {
+                        movieList.remove(i);
+                        i--;
+                    }
+                }
+                break;
+            case 3:
+                for (int i = 0; i < movieList.size(); i++) {
+                    if (!movieList.get(i).getGenre().contains(value)) {
+                        movieList.remove(i);
+                        i--;
+                    }
+                }
+                break;
+            case 4:
+                for (int i = 0; i < movieList.size(); i++) {
+                    if (!(movieList.get(i).getDuration()==Integer.parseInt(value))) {
+                        movieList.remove(i);
+                        i--;
+                    }
+                }
+                break;
+            case 5:
+                for (int i = 0; i < movieList.size(); i++) {
+                    if (!movieList.get(i).getCountry().contains(value)) {
+                        movieList.remove(i);
+                        i--;
+                    }
+                }
+                break;
+            case 6:
+                for (int i = 0; i < movieList.size(); i++) {
+                    if (!movieList.get(i).getLanguage().contains(value)) {
+                        movieList.remove(i);
+                        i--;
+                    }
+                }
+                break;
+            case 7:
+                for (int i = 0; i < movieList.size(); i++) {
+                    if (!movieList.get(i).getDirector().contains(value)) {
+                        movieList.remove(i);
+                        i--;
+                    }
+                }
+                break;
+            case 8:
+                for (int i = 0; i < movieList.size(); i++) {
+                    if (!movieList.get(i).getScriptwriter().contains(value)) {
+                        movieList.remove(i);
+                        i--;
+                    }
+                }
+                break;
+            case 9:
+                for (int i = 0; i < movieList.size(); i++) {
+                    if (!movieList.get(i).getActors().contains(value)) {
+                        movieList.remove(i);
+                        i--;
+                    }
+                }
+                break;
+            case 10:
+                for (int i = 0; i < movieList.size(); i++) {
+                    if (!movieList.get(i).getDescription().contains(value)) {
+                        movieList.remove(i);
+                        i--;
+                    }
+                }
+                break;
+            case 11:
+                for (int i = 0; i < movieList.size(); i++) {
+                    if (!(movieList.get(i).getVoteCount()==Integer.parseInt(value))) {
+                        movieList.remove(i);
+                        i--;
+                    }
+                }
+                break;
+            case 12:
+                for (int i = 0; i < movieList.size(); i++) {
+                    if (!(movieList.get(i).getVoteAverage()==Double.parseDouble(value))) {
+                        movieList.remove(i);
+                        i--;
+                    }
+                }
+                break;
+            default:
+                System.out.println("Veuillez entrer un nombre entre 1 et 12");
+        }
     }
+    
 
     public void javaFilter(Integer attribute, String value) {
-
-
 
         switch(attribute) {
             case 1:
@@ -144,22 +243,32 @@ public class Database {
 
     // TRIS 
 
-
-    
     public void selectionSort(Comparator<Film> comparator) {
-
-		for (int i = 0; i < movieList.size() - 2; i++) {
-            int minIndex = i;
-            for (int j = i + 1; j < movieList.size(); j++) {
-                if (comparator.compare(movieList.get(j), movieList.get(minIndex)) < 0) {
-                    minIndex = j;
+        ListIterator<Film> iter = movieList.listIterator();
+        while (iter.hasNext()) {
+            int minIndex = iter.nextIndex();
+            Film minValue = iter.next();
+            for (ListIterator<Film> searchIter = movieList.listIterator(minIndex + 1); searchIter.hasNext();) {
+                Film searchValue = searchIter.next();
+                if (comparator.compare(searchValue, minValue) < 0) {
+                    minIndex = searchIter.previousIndex();
+                    minValue = searchValue;
                 }
             }
-            Film tmp = movieList.get(minIndex);
-            movieList.set(minIndex, movieList.get(i));
-            movieList.set(i, tmp);
+            if (minIndex != iter.previousIndex()) {
+                Film temp = iter.previous();
+                iter.set(minValue);
+                movieList.set(minIndex, temp);
+                iter.next();
+            }
         }
     }
+    
+
+
+    
+    
+    
 
     public void fusionSort(Comparator<Film> comparator) {
         fusionRec(0, movieList.size()-1, comparator);
@@ -215,97 +324,164 @@ public class Database {
     }
 
     public void linearSearch(Integer attribute, String value) {
+        System.out.println("     ____________________________________________________________________\n\n");
         switch(attribute) {
             case 1:
                 for (Film film : movieList) {
                     if (film.getTitle().contains(value)) {
-                        System.out.println(film);
+                        System.out.println(film+"\n");
                     }
                 }
                 break;
             case 2:
                 for (Film film : movieList) {
                     if (film.getYear()==Integer.parseInt(value)) {
-                        System.out.println(film);
+                        System.out.println(film+"\n");
                     }
                 }
                 break;
             case 3:
                 for (Film film : movieList) {
                     if (film.getGenre().contains(value)) {
-                        System.out.println(film);
+                        System.out.println(film+"\n");
                     }
                 }
                 break;
             case 4:
                 for (Film film : movieList) {
                     if (film.getDuration()==Integer.parseInt(value)) {
-                        System.out.println(film);
+                        System.out.println(film+"\n");
                     }
                 }
                 break;
             case 5:
                 for (Film film : movieList) {
                     if (film.getCountry().contains(value)) {
-                        System.out.println(film);
+                        System.out.println(film+"\n");
                     }
                 }
                 break;
             case 6:
                 for (Film film : movieList) {
                     if (film.getLanguage().contains(value)) {
-                        System.out.println(film);
+                        System.out.println(film+"\n");
                     }
                 }
                 break;
             case 7:
                 for (Film film : movieList) {
                     if (film.getDirector().contains(value)) {
-                        System.out.println(film);
+                        System.out.println(film+"\n");
                     }
                 }
                 break;
             case 8:
                 for (Film film : movieList) {
                     if (film.getScriptwriter().contains(value)) {
-                        System.out.println(film);
+                        System.out.println(film+"\n");
                     }
                 }
                 break;
             case 9:
                 for (Film film : movieList) {
                     if (film.getActors().contains(value)) {
-                        System.out.println(film);
+                        System.out.println(film+"\n");
                     }
                 }
                 break;
             case 10:
                 for (Film film : movieList) {
                     if (film.getDescription().contains(value)) {
-                        System.out.println(film);
+                        System.out.println(film+"\n");
                     }
                 }
                 break;
             case 11:
                 for (Film film : movieList) {
                     if (film.getVoteCount()==Integer.parseInt(value)) {
-                        System.out.println(film);
+                        System.out.println(film+"\n");
                     }
                 }
                 break;
             case 12:
                 for (Film film : movieList) {
                     if (film.getVoteAverage()==Integer.parseInt(value)) {
-                        System.out.println(film);
+                        System.out.println(film+"\n");
                     }
                 }
                 break;
         }
     }
 
-    public void dichotomicalSearch(Integer attribute, String value) {
+    public void dichotomicalSearch(Integer attribute, String value, Database database) {
+
+        System.out.println("     ____________________________________________________________________\n\n");
+        int left = 0;
+        int right = database.movieList.size() - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            Film midFilm = database.movieList.get(mid);
+            int cmp = 0;
+
+            switch (attribute) {
+                case 1:
+                    cmp = midFilm.getTitle().compareTo(value);
+                    break;
+                case 2:
+                    cmp = Integer.compare(midFilm.getYear(), Integer.parseInt(value));
+                    break;
+                case 3:
+                    cmp = midFilm.getGenre().compareTo(value);
+                    break;
+                case 4:
+                    cmp = Integer.compare(midFilm.getDuration(), Integer.parseInt(value));
+                    break;
+                case 5:
+                    cmp = midFilm.getCountry().compareTo(value);
+                    break;
+                case 6:
+                    cmp = midFilm.getLanguage().compareTo(value);
+                    break;
+                case 7:
+                    cmp = midFilm.getDirector().compareTo(value);
+                    break;
+                case 8:
+                    cmp = midFilm.getScriptwriter().compareTo(value);
+                    break;
+                case 9:
+                    cmp = midFilm.getActors().compareTo(value);
+                    break;
+                case 10:
+                    cmp = midFilm.getDescription().compareTo(value);
+                    break;
+                case 11:
+                    cmp = Integer.compare(midFilm.getVoteCount(), Integer.parseInt(value));
+                    break;
+                case 12:
+                    cmp = Integer.compare((int)midFilm.getVoteAverage(), Integer.parseInt(value));
+                    break;
+            }
+            if (cmp == 0) {
+                System.out.println(midFilm + "\n");
+                break;
+            } else if (cmp > 0) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
     }
 
+    public void copyData(Database db) {
+        if (movieList == null) {
+            movieList = new ArrayList<Film>();
+        }
+
+        for (Film film : db.movieList) {
+            movieList.add(film);
+        }
+
+    }
     
 }
 
