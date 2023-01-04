@@ -6,15 +6,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Database {
-    private ArrayList<Film> movieList;
+    private LinkedList<Film> movieList;
 
 
     public void initialisation() throws Exception {
         if (movieList == null) {
-            movieList = new ArrayList<Film>();
+            movieList = new LinkedList<Film>();
         } else
 
         while (!movieList.isEmpty()){
@@ -84,12 +85,7 @@ public class Database {
     }
 
     // FILTRES 
-    public void LinearFilter() {
-
-        
-    }
-
-    public void JavaFilter(Integer attribute, String value) {
+    public void linearFilter() {
 
         // Stream<Film> filtered_data = list.stream().filter(s -> s.rollNo > 2);  
 
@@ -97,6 +93,11 @@ public class Database {
         // filtered_data.forEach(  
         //         student -> System.out.println(student.name)  
         // );
+    }
+
+    public void javaFilter(Integer attribute, String value) {
+
+
 
         switch(attribute) {
             case 1:
@@ -139,15 +140,13 @@ public class Database {
         }
     }
 
-    public void Search() {}
-
-    public void Save() {}
+    public void save() {}
 
     // TRIS 
 
 
     
-    public void SelectionSort(Comparator<Film> comparator) {
+    public void selectionSort(Comparator<Film> comparator) {
 
 		for (int i = 0; i < movieList.size() - 2; i++) {
             int minIndex = i;
@@ -162,7 +161,7 @@ public class Database {
         }
     }
 
-    public void FusionSort(Comparator<Film> comparator) {
+    public void fusionSort(Comparator<Film> comparator) {
         fusionRec(0, movieList.size()-1, comparator);
     }
 
@@ -211,10 +210,101 @@ public class Database {
         }
     }
         
-    public void JavaSort(Comparator<Film> comparator) {
+    public void javaSort(Comparator<Film> comparator) {
         movieList.sort(comparator);
     }
 
+    public void linearSearch(Integer attribute, String value) {
+        switch(attribute) {
+            case 1:
+                for (Film film : movieList) {
+                    if (film.getTitle().contains(value)) {
+                        System.out.println(film);
+                    }
+                }
+                break;
+            case 2:
+                for (Film film : movieList) {
+                    if (film.getYear()==Integer.parseInt(value)) {
+                        System.out.println(film);
+                    }
+                }
+                break;
+            case 3:
+                for (Film film : movieList) {
+                    if (film.getGenre().contains(value)) {
+                        System.out.println(film);
+                    }
+                }
+                break;
+            case 4:
+                for (Film film : movieList) {
+                    if (film.getDuration()==Integer.parseInt(value)) {
+                        System.out.println(film);
+                    }
+                }
+                break;
+            case 5:
+                for (Film film : movieList) {
+                    if (film.getCountry().contains(value)) {
+                        System.out.println(film);
+                    }
+                }
+                break;
+            case 6:
+                for (Film film : movieList) {
+                    if (film.getLanguage().contains(value)) {
+                        System.out.println(film);
+                    }
+                }
+                break;
+            case 7:
+                for (Film film : movieList) {
+                    if (film.getDirector().contains(value)) {
+                        System.out.println(film);
+                    }
+                }
+                break;
+            case 8:
+                for (Film film : movieList) {
+                    if (film.getScriptwriter().contains(value)) {
+                        System.out.println(film);
+                    }
+                }
+                break;
+            case 9:
+                for (Film film : movieList) {
+                    if (film.getActors().contains(value)) {
+                        System.out.println(film);
+                    }
+                }
+                break;
+            case 10:
+                for (Film film : movieList) {
+                    if (film.getDescription().contains(value)) {
+                        System.out.println(film);
+                    }
+                }
+                break;
+            case 11:
+                for (Film film : movieList) {
+                    if (film.getVoteCount()==Integer.parseInt(value)) {
+                        System.out.println(film);
+                    }
+                }
+                break;
+            case 12:
+                for (Film film : movieList) {
+                    if (film.getVoteAverage()==Integer.parseInt(value)) {
+                        System.out.println(film);
+                    }
+                }
+                break;
+        }
+    }
+
+    public void dichotomicalSearch(Integer attribute, String value) {
+    }
 
     
 }
